@@ -302,41 +302,7 @@ movie_recc/
 └── docs/                 # Documentation
 ```
 
-### Adding New Features
-
-1. **Database Changes**: Update models in `src/data/movie_database.py`
-2. **API Endpoints**: Add routes in `src/api/`
-3. **ML Models**: Implement in `src/models/`
-4. **Tests**: Add corresponding test files
-5. **Documentation**: Update README and API docs
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [MovieLens](https://movielens.org/) for the dataset
-- [TMDB](https://www.themoviedb.org/) for movie metadata
-- [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/) for GNN support
-- [Transformers4Rec](https://github.com/NVIDIA-Merlin/Transformers4Rec) for sequential modeling
-
-## 📞 Support
-
-For questions and support:
-
-- Create an issue on GitHub
-- Check the [documentation](docs/)
-- Review the [API documentation](http://localhost:8000/docs) when running locally
-
----
-
-**Note**: This is a development version. For production deployment, additional security, monitoring, and scaling considerations should be implemented. 
