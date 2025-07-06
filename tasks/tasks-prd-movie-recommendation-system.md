@@ -7,7 +7,7 @@ Based on the PRD analysis, here are the main high-level tasks required to implem
 - `src/data/movie_database.py` - Core movie data management and metadata handling
 - `src/data/movie_database.test.py` - Unit tests for movie database functionality
 - `src/models/lightgcn_model.py` - LightGCN implementation for collaborative filtering
-- `src/models/lightgcn_model.test.py` - Unit tests for LightGCN model
+- `src/models/test_lightgcn_model.py` - Unit tests for LightGCN model
 - `src/models/transformer_model.py` - Transformers4Rec implementation for sequential modeling
 - `src/models/transformer_model.test.py` - Unit tests for transformer model
 - `src/models/multimodal_model.py` - CLIP/VideoCLIP integration for multi-modal embeddings
@@ -65,7 +65,7 @@ Based on the PRD analysis, here are the main high-level tasks required to implem
   - [x] 1.8 Set up data backup and recovery procedures
 
 - [ ] 2.0 Build Core Recommendation Engine
-  - [ ] 2.1 Implement LightGCN model for collaborative filtering
+  - [x] 2.1 Implement LightGCN model for collaborative filtering
   - [ ] 2.2 Create movie similarity calculation using embeddings
   - [ ] 2.3 Build candidate generation pipeline (thousands of plausible items)
   - [ ] 2.4 Implement cold-start strategies for new users and new content
