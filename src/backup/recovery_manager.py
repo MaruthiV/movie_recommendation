@@ -18,6 +18,7 @@ import logging
 from pathlib import Path
 import tempfile
 import os
+import re
 
 from .backup_config import BackupConfig, BackupType, StorageType, CompressionType
 from .backup_manager import BackupResult
@@ -170,26 +171,21 @@ class RecoveryManager:
     def _parse_backup_filename(self, filename: str) -> Optional[Dict[str, Any]]:
         """Parse backup filename to extract metadata."""
         try:
-            # Expected format: {backup_type}_{timestamp}.{ext}.{compression}
-            parts = filename.split('_')
-            if len(parts) < 2:
+            # Use regex to extract backup_type and timestamp
+            match = re.match(r"^(?P<type>\w+)_(?P<ts>\d{8}_\d{6})", filename)
+            if not match:
                 return None
-            
-            backup_type = parts[0]
-            timestamp_str = parts[1]
-            
-            # Parse timestamp (format: YYYYMMDD_HHMMSS)
+            backup_type = match.group('type')
+            timestamp_str = match.group('ts')
             timestamp = datetime.strptime(timestamp_str, '%Y%m%d_%H%M%S')
-            
             # Determine compression type
             compression = CompressionType.NONE
-            if filename.endswith('.gz'):
+            if filename.endswith('.gz') or filename.endswith('.gzip'):
                 compression = CompressionType.GZIP
-            elif filename.endswith('.bz2'):
+            elif filename.endswith('.bz2') or filename.endswith('.bzip2'):
                 compression = CompressionType.BZIP2
-            elif filename.endswith('.xz'):
+            elif filename.endswith('.xz') or filename.endswith('.lzma'):
                 compression = CompressionType.LZMA
-            
             return {
                 'backup_type': backup_type,
                 'timestamp': timestamp,
