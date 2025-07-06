@@ -1,0 +1,97 @@
+{
+  "table_name": "movies",
+  "report_metadata": {
+    "report_type": "quality_assessment",
+    "generated_at": "2025-07-05T19:42:15.365764",
+    "version": "1.0",
+    "generator": "QualityReporter"
+  },
+  "quality_score": {
+    "overall_score": 32.833333333333336,
+    "quality_level": "critical",
+    "component_scores": {
+      "base_score": 0.0,
+      "completeness_score": 50.0,
+      "consistency_score": 66.66666666666667,
+      "accuracy_score": 70.0,
+      "enrichment_score": 0.0
+    },
+    "issue_counts": {
+      "critical": 4,
+      "warning": 1,
+      "info": 0
+    }
+  },
+  "validation_results": [
+    {
+      "rule": "movie_title_not_empty",
+      "severity": "IssueSeverity.CRITICAL",
+      "message": "Empty movie title for movie ID: 3",
+      "row_data": {
+        "movieId": 3,
+        "title_clean": "",
+        "avg_rating": 6.0
+      }
+    },
+    {
+      "rule": "movie_rating_range",
+      "severity": "IssueSeverity.WARNING",
+      "message": "Invalid movie rating 6.0 for movie ID: 3",
+      "row_data": {
+        "movieId": 3,
+        "title_clean": "",
+        "avg_rating": 6.0
+      }
+    },
+    {
+      "rule": "movie_release_year_valid",
+      "severity": "IssueSeverity.CRITICAL",
+      "message": "Validation rule error: 'release_year'",
+      "row_data": {}
+    },
+    {
+      "rule": "movie_genres_not_empty",
+      "severity": "IssueSeverity.CRITICAL",
+      "message": "Validation rule error: 'genres_list'",
+      "row_data": {}
+    },
+    {
+      "rule": "movie_tmdb_id_unique",
+      "severity": "IssueSeverity.CRITICAL",
+      "message": "Validation rule error: 'tmdb_id'",
+      "row_data": {}
+    }
+  ],
+  "data_statistics": {
+    "total_records": 3,
+    "columns": [
+      "movieId",
+      "title_clean",
+      "avg_rating"
+    ],
+    "data_types": {
+      "movieId": "int64",
+      "title_clean": "object",
+      "avg_rating": "float64"
+    },
+    "missing_values": {
+      "movieId": 0,
+      "title_clean": 0,
+      "avg_rating": 0
+    }
+  },
+  "recommendations": [
+    "Prioritize fixing critical validation issues",
+    "Review data ingestion pipeline for error handling",
+    "Implement data completeness checks in ingestion pipeline",
+    "Consider data enrichment from additional sources",
+    "Implement referential integrity checks",
+    "Add duplicate detection and resolution logic",
+    "Implement data type validation in ingestion",
+    "Add range validation for numeric fields",
+    "Expand TMDB data collection coverage",
+    "Consider additional metadata sources",
+    "Implement automated quality monitoring",
+    "Set up quality alerting for critical issues"
+  ]
+}

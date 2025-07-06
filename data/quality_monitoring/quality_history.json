@@ -1,0 +1,138 @@
+[
+  {
+    "score": 40.333333333333336,
+    "level": "critical",
+    "total_records": 6,
+    "issues_count": 7,
+    "critical_issues": 6,
+    "warning_issues": 1,
+    "info_issues": 0,
+    "timestamp": "2025-07-05T19:42:41.803256",
+    "metadata": {
+      "base_score": 0.0,
+      "completeness_score": 66.66666666666667,
+      "consistency_score": 83.33333333333334,
+      "accuracy_score": 70.0,
+      "enrichment_score": 0.0,
+      "issues_by_table": {
+        "movies": 5,
+        "ratings": 2,
+        "users": 0,
+        "tmdb": 0
+      },
+      "data_volume": {
+        "movies": 3,
+        "ratings": 3
+      }
+    }
+  },
+  {
+    "score": 40.333333333333336,
+    "level": "critical",
+    "total_records": 6,
+    "issues_count": 7,
+    "critical_issues": 6,
+    "warning_issues": 1,
+    "info_issues": 0,
+    "timestamp": "2025-07-05T19:42:41.805372",
+    "metadata": {
+      "base_score": 0.0,
+      "completeness_score": 66.66666666666667,
+      "consistency_score": 83.33333333333334,
+      "accuracy_score": 70.0,
+      "enrichment_score": 0.0,
+      "issues_by_table": {
+        "movies": 5,
+        "ratings": 2,
+        "users": 0,
+        "tmdb": 0
+      },
+      "data_volume": {
+        "movies": 3,
+        "ratings": 3
+      }
+    }
+  },
+  {
+    "score": 40.333333333333336,
+    "level": "critical",
+    "total_records": 6,
+    "issues_count": 7,
+    "critical_issues": 6,
+    "warning_issues": 1,
+    "info_issues": 0,
+    "timestamp": "2025-07-05T19:42:41.807251",
+    "metadata": {
+      "base_score": 0.0,
+      "completeness_score": 66.66666666666667,
+      "consistency_score": 83.33333333333334,
+      "accuracy_score": 70.0,
+      "enrichment_score": 0.0,
+      "issues_by_table": {
+        "movies": 5,
+        "ratings": 2,
+        "users": 0,
+        "tmdb": 0
+      },
+      "data_volume": {
+        "movies": 3,
+        "ratings": 3
+      }
+    }
+  },
+  {
+    "score": 40.333333333333336,
+    "level": "critical",
+    "total_records": 6,
+    "issues_count": 7,
+    "critical_issues": 6,
+    "warning_issues": 1,
+    "info_issues": 0,
+    "timestamp": "2025-07-05T19:42:41.808907",
+    "metadata": {
+      "base_score": 0.0,
+      "completeness_score": 66.66666666666667,
+      "consistency_score": 83.33333333333334,
+      "accuracy_score": 70.0,
+      "enrichment_score": 0.0,
+      "issues_by_table": {
+        "movies": 5,
+        "ratings": 2,
+        "users": 0,
+        "tmdb": 0
+      },
+      "data_volume": {
+        "movies": 3,
+        "ratings": 3
+      }
+    }
+  },
+  {
+    "score": 49.61538461538461,
+    "level": "critical",
+    "total_records": 13,
+    "issues_count": 4,
+    "critical_issues": 2,
+    "warning_issues": 2,
+    "info_issues": 0,
+    "timestamp": "2025-07-05T19:42:41.818600",
+    "metadata": {
+      "base_score": 0.0,
+      "completeness_score": 84.61538461538461,
+      "consistency_score": 100.0,
+      "accuracy_score": 84.61538461538461,
+      "enrichment_score": 0.0,
+      "issues_by_table": {
+        "movies": 3,
+        "ratings": 1,
+        "users": 0,
+        "tmdb": 0
+      },
+      "data_volume": {
+        "movies": 5,
+        "ratings": 5,
+        "users": 3
+      }
+    }
+  }
+]

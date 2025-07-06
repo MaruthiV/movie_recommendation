@@ -1,0 +1,323 @@
+{
+  "report_metadata": {
+    "report_type": "quality_assessment",
+    "generated_at": "2025-07-05T19:42:41.820883",
+    "version": "1.0",
+    "generator": "QualityReporter"
+  },
+  "executive_summary": {
+    "overall_quality_score": 49.61538461538461,
+    "quality_level": "critical",
+    "total_records": 13,
+    "total_issues": 4,
+    "critical_issues": 2,
+    "warning_issues": 2,
+    "info_issues": 0,
+    "assessment_date": "2025-07-05T19:42:41.820881",
+    "key_insights": [
+      "Data quality is critical - system may be compromised",
+      "Found 2 critical issues that must be resolved",
+      "Table 'movies' has 1 critical issues",
+      "Table 'ratings' has 1 critical issues",
+      "Data completeness needs improvement - consider data enrichment",
+      "Low TMDB enrichment - consider expanding metadata collection"
+    ],
+    "status": "Critical - System may be compromised"
+  },
+  "quality_score": {
+    "overall_score": 49.61538461538461,
+    "quality_level": "critical",
+    "component_scores": {
+      "base_score": 0.0,
+      "completeness_score": 84.61538461538461,
+      "consistency_score": 100.0,
+      "accuracy_score": 84.61538461538461,
+      "enrichment_score": 0.0
+    },
+    "issue_counts": {
+      "critical": 2,
+      "warning": 2,
+      "info": 0
+    }
+  },
+  "validation_results": {
+    "total_issues": 4,
+    "issues_by_table": {
+      "movies": 3,
+      "ratings": 1,
+      "users": 0,
+      "tmdb": 0
+    },
+    "issues_by_severity": {
+      "critical": 2,
+      "warning": 2,
+      "info": 0
+    },
+    "detailed_issues": {
+      "movies": [
+        {
+          "rule": "movie_title_not_empty",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Empty movie title for movie ID: 3",
+          "row_data": {
+            "movieId": 3,
+            "title_clean": "",
+            "avg_rating": 2.1,
+            "release_year": 2025,
+            "genres_list": [],
+            "tmdb_id": NaN
+          }
+        },
+        {
+          "rule": "movie_rating_range",
+          "severity": "IssueSeverity.WARNING",
+          "message": "Invalid movie rating 6.0 for movie ID: 4",
+          "row_data": {
+            "movieId": 4,
+            "title_clean": "Movie 4",
+            "avg_rating": 6.0,
+            "release_year": 2018,
+            "genres_list": [
+              "Comedy"
+            ],
+            "tmdb_id": 789.0
+          }
+        },
+        {
+          "rule": "movie_genres_not_empty",
+          "severity": "IssueSeverity.WARNING",
+          "message": "No genres for movie ID: 3",
+          "row_data": {
+            "movieId": 3,
+            "title_clean": "",
+            "avg_rating": 2.1,
+            "release_year": 2025,
+            "genres_list": [],
+            "tmdb_id": NaN
+          }
+        }
+      ],
+      "ratings": [
+        {
+          "rule": "rating_range",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Invalid rating 6.0 for user 3, movie 4",
+          "row_data": {
+            "userId": 3,
+            "movieId": 4,
+            "rating": 6.0,
+            "timestamp": "2025-07-05 19:42:41.814659"
+          }
+        }
+      ],
+      "users": [],
+      "tmdb": []
+    }
+  },
+  "table_analysis": {
+    "movies": {
+      "quality_score": 43.0,
+      "quality_level": "critical",
+      "total_records": 5,
+      "issues_count": 3,
+      "critical_issues": 1,
+      "warning_issues": 2,
+      "info_issues": 0
+    },
+    "ratings": {
+      "quality_score": 53.0,
+      "quality_level": "poor",
+      "total_records": 5,
+      "issues_count": 1,
+      "critical_issues": 1,
+      "warning_issues": 0,
+      "info_issues": 0
+    },
+    "users": {
+      "quality_score": 95.0,
+      "quality_level": "excellent",
+      "total_records": 3,
+      "issues_count": 0,
+      "critical_issues": 0,
+      "warning_issues": 0,
+      "info_issues": 0
+    }
+  },
+  "issue_breakdown": {
+    "issues_by_rule": {
+      "movie_title_not_empty": 1,
+      "movie_rating_range": 1,
+      "movie_genres_not_empty": 1,
+      "rating_range": 1
+    },
+    "issues_by_severity": {
+      "critical": 2,
+      "warning": 2,
+      "info": 0
+    },
+    "most_common_issues": [
+      [
+        "movie_title_not_empty",
+        1
+      ],
+      [
+        "movie_rating_range",
+        1
+      ],
+      [
+        "movie_genres_not_empty",
+        1
+      ],
+      [
+        "rating_range",
+        1
+      ]
+    ]
+  },
+  "data_statistics": {
+    "total_records": 13,
+    "records_by_table": {
+      "movies": 5,
+      "ratings": 5,
+      "users": 3
+    },
+    "tmdb_enrichment": {
+      "enriched_movies": 0,
+      "total_movies": 5,
+      "enrichment_percentage": 0
+    }
+  },
+  "trends": {
+    "recent_trends": {
+      "trend": "strongly_improving",
+      "change": 0.0,
+      "trend_direction": "stable",
+      "volatility": 3.712820512820511,
+      "recent_scores": [
+        40.333333333333336,
+        40.333333333333336,
+        40.333333333333336,
+        40.333333333333336,
+        49.61538461538461
+      ]
+    },
+    "monthly_trends": {
+      "trend": "strongly_improving",
+      "change": 0.0,
+      "trend_direction": "stable",
+      "volatility": 3.712820512820511,
+      "recent_scores": [
+        40.333333333333336,
+        40.333333333333336,
+        40.333333333333336,
+        40.333333333333336,
+        49.61538461538461
+      ]
+    },
+    "quality_summary": {
+      "current_score": 49.61538461538461,
+      "quality_level": "critical",
+      "total_records": 13,
+      "active_alerts": 14,
+      "critical_alerts": 9,
+      "warning_alerts": 5,
+      "last_updated": "2025-07-05T19:42:41.818600",
+      "trends": {
+        "trend": "strongly_improving",
+        "change": 0.0,
+        "trend_direction": "stable",
+        "volatility": 3.712820512820511,
+        "recent_scores": [
+          40.333333333333336,
+          40.333333333333336,
+          40.333333333333336,
+          40.333333333333336,
+          49.61538461538461
+        ]
+      }
+    }
+  },
+  "recommendations": {
+    "priority_recommendations": [
+      "Prioritize fixing critical validation issues",
+      "Review data ingestion pipeline for error handling",
+      "Implement data completeness checks in ingestion pipeline",
+      "Consider data enrichment from additional sources",
+      "Implement data type validation in ingestion"
+    ],
+    "all_recommendations": [
+      "Prioritize fixing critical validation issues",
+      "Review data ingestion pipeline for error handling",
+      "Implement data completeness checks in ingestion pipeline",
+      "Consider data enrichment from additional sources",
+      "Implement data type validation in ingestion",
+      "Add range validation for numeric fields",
+      "Expand TMDB data collection coverage",
+      "Consider additional metadata sources",
+      "Implement automated quality monitoring",
+      "Set up quality alerting for critical issues"
+    ],
+    "implementation_priority": [
+      {
+        "recommendation": "Prioritize fixing critical validation issues",
+        "priority": "high",
+        "estimated_impact": "high",
+        "order": 1
+      },
+      {
+        "recommendation": "Review data ingestion pipeline for error handling",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 2
+      },
+      {
+        "recommendation": "Implement data completeness checks in ingestion pipeline",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 3
+      },
+      {
+        "recommendation": "Consider data enrichment from additional sources",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 4
+      },
+      {
+        "recommendation": "Implement data type validation in ingestion",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 5
+      },
+      {
+        "recommendation": "Add range validation for numeric fields",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 6
+      },
+      {
+        "recommendation": "Expand TMDB data collection coverage",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 7
+      },
+      {
+        "recommendation": "Consider additional metadata sources",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 8
+      },
+      {
+        "recommendation": "Implement automated quality monitoring",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 9
+      },
+      {
+        "recommendation": "Set up quality alerting for critical issues",
+        "priority": "high",
+        "estimated_impact": "high",
+        "order": 10
+      }
+    ]
+  }
+}

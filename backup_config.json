@@ -1,0 +1,128 @@
+{
+  "backup_name": "movie-recommendation-system",
+  "description": "Backup configuration for movie recommendation system with PostgreSQL, Neo4j, Milvus, and data files",
+  "version": "1.0",
+  "postgresql": {
+    "enabled": true,
+    "backup_type": "full",
+    "frequency": "daily",
+    "retention_days": 30,
+    "compression": "gzip",
+    "include_schema": true,
+    "include_data": true,
+    "include_indexes": true,
+    "parallel_jobs": 4,
+    "timeout_minutes": 60
+  },
+  "neo4j": {
+    "enabled": true,
+    "backup_type": "full",
+    "frequency": "daily",
+    "retention_days": 30,
+    "compression": "gzip",
+    "include_schema": true,
+    "include_data": true,
+    "include_indexes": true,
+    "parallel_jobs": 4,
+    "timeout_minutes": 60
+  },
+  "milvus": {
+    "enabled": true,
+    "backup_type": "full",
+    "frequency": "weekly",
+    "retention_days": 90,
+    "compression": "lzma",
+    "include_schema": true,
+    "include_data": true,
+    "include_indexes": true,
+    "parallel_jobs": 4,
+    "timeout_minutes": 120
+  },
+  "data_files": {
+    "enabled": true,
+    "backup_type": "full",
+    "frequency": "daily",
+    "retention_days": 30,
+    "compression": "gzip",
+    "include_patterns": [
+      "*.parquet",
+      "*.json",
+      "*.csv",
+      "*.pkl",
+      "*.h5",
+      "*.feather"
+    ],
+    "exclude_patterns": [
+      "*.tmp",
+      "*.log",
+      "*.lock",
+      "*.swp",
+      "*.bak"
+    ],
+    "max_file_size_mb": 1000
+  },
+  "logs": {
+    "enabled": true,
+    "backup_type": "full",
+    "frequency": "weekly",
+    "retention_days": 90,
+    "compression": "gzip",
+    "include_patterns": [
+      "*.log",
+      "*.log.*"
+    ],
+    "exclude_patterns": [
+      "*.tmp",
+      "*.log",
+      "*.lock"
+    ],
+    "max_file_size_mb": 500
+  },
+  "quality_reports": {
+    "enabled": true,
+    "backup_type": "full",
+    "frequency": "daily",
+    "retention_days": 30,
+    "compression": "gzip",
+    "include_patterns": [
+      "*quality_report*.json",
+      "*quality_history*.json",
+      "*quality_metrics*.json"
+    ],
+    "exclude_patterns": [
+      "*.tmp",
+      "*.log",
+      "*.lock"
+    ],
+    "max_file_size_mb": 1000
+  },
+  "storage": {
+    "storage_type": "local",
+    "local_path": "backups",
+    "s3_bucket": null,
+    "s3_prefix": "movie-recommendation-backups",
+    "gcs_bucket": null,
+    "gcs_prefix": "movie-recommendation-backups",
+    "azure_container": null,
+    "azure_prefix": "movie-recommendation-backups",
+    "credentials_file": null,
+    "encryption_enabled": true,
+    "encryption_key": null
+  },
+  "notifications": {
+    "enabled": true,
+    "email_recipients": [
+      "cynthia.petgrooming@gmail.com"
+    ],
+    "slack_webhook": null,
+    "teams_webhook": null,
+    "on_success": true,
+    "on_failure": true,
+    "on_warning": false
+  },
+  "max_concurrent_backups": 3,
+  "backup_timeout_minutes": 120,
+  "verification_enabled": true,
+  "checksum_verification": true,
+  "backup_metadata": true
+}

@@ -1,0 +1,11 @@
+{
+  "alert_thresholds": {
+    "quality_score_min": 85.0,
+    "critical_issues_max": 10,
+    "warning_issues_max": 50,
+    "completeness_min": 90.0,
+    "consistency_min": 90.0
+  },
+  "monitoring_enabled": true,
+  "last_updated": "2025-07-05T19:42:41.819049"
+}

@@ -1,0 +1,295 @@
+{
+  "report_metadata": {
+    "report_type": "quality_assessment",
+    "generated_at": "2025-07-05T19:42:15.364213",
+    "version": "1.0",
+    "generator": "QualityReporter"
+  },
+  "executive_summary": {
+    "overall_quality_score": 40.333333333333336,
+    "quality_level": "critical",
+    "total_records": 6,
+    "total_issues": 7,
+    "critical_issues": 6,
+    "warning_issues": 1,
+    "info_issues": 0,
+    "assessment_date": "2025-07-05T19:42:15.364211",
+    "key_insights": [
+      "Data quality is critical - system may be compromised",
+      "Found 6 critical issues that must be resolved",
+      "Table 'movies' has 4 critical issues",
+      "Table 'ratings' has 2 critical issues",
+      "Data completeness needs improvement - consider data enrichment",
+      "Data consistency issues detected - review duplicate handling",
+      "Low TMDB enrichment - consider expanding metadata collection"
+    ],
+    "status": "Critical - System may be compromised"
+  },
+  "quality_score": {
+    "overall_score": 40.333333333333336,
+    "quality_level": "critical",
+    "component_scores": {
+      "base_score": 0.0,
+      "completeness_score": 66.66666666666667,
+      "consistency_score": 83.33333333333334,
+      "accuracy_score": 70.0,
+      "enrichment_score": 0.0
+    },
+    "issue_counts": {
+      "critical": 6,
+      "warning": 1,
+      "info": 0
+    }
+  },
+  "validation_results": {
+    "total_issues": 7,
+    "issues_by_table": {
+      "movies": 5,
+      "ratings": 2,
+      "users": 0,
+      "tmdb": 0
+    },
+    "issues_by_severity": {
+      "critical": 6,
+      "warning": 1,
+      "info": 0
+    },
+    "detailed_issues": {
+      "movies": [
+        {
+          "rule": "movie_title_not_empty",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Empty movie title for movie ID: 3",
+          "row_data": {
+            "movieId": 3,
+            "title_clean": "",
+            "avg_rating": 6.0
+          }
+        },
+        {
+          "rule": "movie_rating_range",
+          "severity": "IssueSeverity.WARNING",
+          "message": "Invalid movie rating 6.0 for movie ID: 3",
+          "row_data": {
+            "movieId": 3,
+            "title_clean": "",
+            "avg_rating": 6.0
+          }
+        },
+        {
+          "rule": "movie_release_year_valid",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Validation rule error: 'release_year'",
+          "row_data": {}
+        },
+        {
+          "rule": "movie_genres_not_empty",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Validation rule error: 'genres_list'",
+          "row_data": {}
+        },
+        {
+          "rule": "movie_tmdb_id_unique",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Validation rule error: 'tmdb_id'",
+          "row_data": {}
+        }
+      ],
+      "ratings": [
+        {
+          "rule": "rating_range",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Invalid rating 6.0 for user 2.0, movie 1.0",
+          "row_data": {
+            "userId": 2.0,
+            "movieId": 1.0,
+            "rating": 6.0
+          }
+        },
+        {
+          "rule": "rating_timestamp_valid",
+          "severity": "IssueSeverity.CRITICAL",
+          "message": "Validation rule error: 'timestamp'",
+          "row_data": {}
+        }
+      ],
+      "users": [],
+      "tmdb": []
+    }
+  },
+  "table_analysis": {
+    "movies": {
+      "quality_score": 32.833333333333336,
+      "quality_level": "critical",
+      "total_records": 3,
+      "issues_count": 5,
+      "critical_issues": 4,
+      "warning_issues": 1,
+      "info_issues": 0
+    },
+    "ratings": {
+      "quality_score": 52.0,
+      "quality_level": "poor",
+      "total_records": 3,
+      "issues_count": 2,
+      "critical_issues": 2,
+      "warning_issues": 0,
+      "info_issues": 0
+    }
+  },
+  "issue_breakdown": {
+    "issues_by_rule": {
+      "movie_title_not_empty": 1,
+      "movie_rating_range": 1,
+      "movie_release_year_valid": 1,
+      "movie_genres_not_empty": 1,
+      "movie_tmdb_id_unique": 1,
+      "rating_range": 1,
+      "rating_timestamp_valid": 1
+    },
+    "issues_by_severity": {
+      "critical": 6,
+      "warning": 1,
+      "info": 0
+    },
+    "most_common_issues": [
+      [
+        "movie_title_not_empty",
+        1
+      ],
+      [
+        "movie_rating_range",
+        1
+      ],
+      [
+        "movie_release_year_valid",
+        1
+      ],
+      [
+        "movie_genres_not_empty",
+        1
+      ],
+      [
+        "movie_tmdb_id_unique",
+        1
+      ],
+      [
+        "rating_range",
+        1
+      ],
+      [
+        "rating_timestamp_valid",
+        1
+      ]
+    ]
+  },
+  "data_statistics": {
+    "total_records": 6,
+    "records_by_table": {
+      "movies": 3,
+      "ratings": 3
+    },
+    "tmdb_enrichment": {
+      "enriched_movies": 0,
+      "total_movies": 3,
+      "enrichment_percentage": 0
+    }
+  },
+  "recommendations": {
+    "priority_recommendations": [
+      "Prioritize fixing critical validation issues",
+      "Review data ingestion pipeline for error handling",
+      "Implement data completeness checks in ingestion pipeline",
+      "Consider data enrichment from additional sources",
+      "Implement referential integrity checks"
+    ],
+    "all_recommendations": [
+      "Prioritize fixing critical validation issues",
+      "Review data ingestion pipeline for error handling",
+      "Implement data completeness checks in ingestion pipeline",
+      "Consider data enrichment from additional sources",
+      "Implement referential integrity checks",
+      "Add duplicate detection and resolution logic",
+      "Implement data type validation in ingestion",
+      "Add range validation for numeric fields",
+      "Expand TMDB data collection coverage",
+      "Consider additional metadata sources",
+      "Implement automated quality monitoring",
+      "Set up quality alerting for critical issues"
+    ],
+    "implementation_priority": [
+      {
+        "recommendation": "Prioritize fixing critical validation issues",
+        "priority": "high",
+        "estimated_impact": "high",
+        "order": 1
+      },
+      {
+        "recommendation": "Review data ingestion pipeline for error handling",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 2
+      },
+      {
+        "recommendation": "Implement data completeness checks in ingestion pipeline",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 3
+      },
+      {
+        "recommendation": "Consider data enrichment from additional sources",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 4
+      },
+      {
+        "recommendation": "Implement referential integrity checks",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 5
+      },
+      {
+        "recommendation": "Add duplicate detection and resolution logic",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 6
+      },
+      {
+        "recommendation": "Implement data type validation in ingestion",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 7
+      },
+      {
+        "recommendation": "Add range validation for numeric fields",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 8
+      },
+      {
+        "recommendation": "Expand TMDB data collection coverage",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 9
+      },
+      {
+        "recommendation": "Consider additional metadata sources",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 10
+      },
+      {
+        "recommendation": "Implement automated quality monitoring",
+        "priority": "high",
+        "estimated_impact": "medium",
+        "order": 11
+      },
+      {
+        "recommendation": "Set up quality alerting for critical issues",
+        "priority": "high",
+        "estimated_impact": "high",
+        "order": 12
+      }
+    ]
+  }
+}

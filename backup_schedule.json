@@ -1,0 +1,68 @@
+{
+  "postgresql": {
+    "frequency": "daily",
+    "next_run": "2025-07-06T02:00:00",
+    "last_run": null,
+    "enabled": true,
+    "config": {
+      "backup_type": "full",
+      "retention_days": 30,
+      "compression": "gzip"
+    }
+  },
+  "neo4j": {
+    "frequency": "daily",
+    "next_run": "2025-07-06T02:00:00",
+    "last_run": null,
+    "enabled": true,
+    "config": {
+      "backup_type": "full",
+      "retention_days": 30,
+      "compression": "gzip"
+    }
+  },
+  "milvus": {
+    "frequency": "weekly",
+    "next_run": "2025-07-06T02:00:00",
+    "last_run": null,
+    "enabled": true,
+    "config": {
+      "backup_type": "full",
+      "retention_days": 90,
+      "compression": "lzma"
+    }
+  },
+  "data_files": {
+    "frequency": "daily",
+    "next_run": "2025-07-06T02:00:00",
+    "last_run": null,
+    "enabled": true,
+    "config": {
+      "backup_type": "full",
+      "retention_days": 30,
+      "compression": "gzip"
+    }
+  },
+  "logs": {
+    "frequency": "weekly",
+    "next_run": "2025-07-06T02:00:00",
+    "last_run": null,
+    "enabled": true,
+    "config": {
+      "backup_type": "full",
+      "retention_days": 90,
+      "compression": "gzip"
+    }
+  },
+  "quality_reports": {
+    "frequency": "daily",
+    "next_run": "2025-07-06T02:00:00",
+    "last_run": null,
+    "enabled": true,
+    "config": {
+      "backup_type": "full",
+      "retention_days": 30,
+      "compression": "gzip"
+    }
+  }
+}

@@ -1,0 +1,198 @@
+[
+  {
+    "id": "quality_score_20250705_194241",
+    "severity": "critical",
+    "message": "Quality score 40.33 below threshold 85.0",
+    "table": "overall",
+    "rule": "quality_score_threshold",
+    "timestamp": "2025-07-05T19:42:41.805386",
+    "data": {
+      "score": 40.333333333333336,
+      "threshold": 85.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "completeness_20250705_194241",
+    "severity": "warning",
+    "message": "Completeness score 66.67 below threshold 90.0",
+    "table": "overall",
+    "rule": "completeness_threshold",
+    "timestamp": "2025-07-05T19:42:41.805394",
+    "data": {
+      "completeness_score": 66.66666666666667,
+      "threshold": 90.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "consistency_20250705_194241",
+    "severity": "warning",
+    "message": "Consistency score 83.33 below threshold 90.0",
+    "table": "overall",
+    "rule": "consistency_threshold",
+    "timestamp": "2025-07-05T19:42:41.805398",
+    "data": {
+      "consistency_score": 83.33333333333334,
+      "threshold": 90.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "table_critical_movies_20250705_194241",
+    "severity": "critical",
+    "message": "Table 'movies' has 4 critical issues",
+    "table": "movies",
+    "rule": "table_critical_issues",
+    "timestamp": "2025-07-05T19:42:41.805403",
+    "data": {
+      "critical_issues": 4,
+      "total_issues": 5
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "table_critical_ratings_20250705_194241",
+    "severity": "critical",
+    "message": "Table 'ratings' has 2 critical issues",
+    "table": "ratings",
+    "rule": "table_critical_issues",
+    "timestamp": "2025-07-05T19:42:41.805406",
+    "data": {
+      "critical_issues": 2,
+      "total_issues": 2
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "quality_score_20250705_194241",
+    "severity": "critical",
+    "message": "Quality score 40.33 below threshold 85.0",
+    "table": "overall",
+    "rule": "quality_score_threshold",
+    "timestamp": "2025-07-05T19:42:41.807258",
+    "data": {
+      "score": 40.333333333333336,
+      "threshold": 85.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "completeness_20250705_194241",
+    "severity": "warning",
+    "message": "Completeness score 66.67 below threshold 90.0",
+    "table": "overall",
+    "rule": "completeness_threshold",
+    "timestamp": "2025-07-05T19:42:41.807263",
+    "data": {
+      "completeness_score": 66.66666666666667,
+      "threshold": 90.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "consistency_20250705_194241",
+    "severity": "warning",
+    "message": "Consistency score 83.33 below threshold 90.0",
+    "table": "overall",
+    "rule": "consistency_threshold",
+    "timestamp": "2025-07-05T19:42:41.807265",
+    "data": {
+      "consistency_score": 83.33333333333334,
+      "threshold": 90.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "table_critical_movies_20250705_194241",
+    "severity": "critical",
+    "message": "Table 'movies' has 4 critical issues",
+    "table": "movies",
+    "rule": "table_critical_issues",
+    "timestamp": "2025-07-05T19:42:41.807269",
+    "data": {
+      "critical_issues": 4,
+      "total_issues": 5
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "table_critical_ratings_20250705_194241",
+    "severity": "critical",
+    "message": "Table 'ratings' has 2 critical issues",
+    "table": "ratings",
+    "rule": "table_critical_issues",
+    "timestamp": "2025-07-05T19:42:41.807272",
+    "data": {
+      "critical_issues": 2,
+      "total_issues": 2
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "quality_score_20250705_194241",
+    "severity": "critical",
+    "message": "Quality score 49.62 below threshold 85.0",
+    "table": "overall",
+    "rule": "quality_score_threshold",
+    "timestamp": "2025-07-05T19:42:41.818608",
+    "data": {
+      "score": 49.61538461538461,
+      "threshold": 85.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "completeness_20250705_194241",
+    "severity": "warning",
+    "message": "Completeness score 84.62 below threshold 90.0",
+    "table": "overall",
+    "rule": "completeness_threshold",
+    "timestamp": "2025-07-05T19:42:41.818612",
+    "data": {
+      "completeness_score": 84.61538461538461,
+      "threshold": 90.0
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "table_critical_movies_20250705_194241",
+    "severity": "critical",
+    "message": "Table 'movies' has 1 critical issues",
+    "table": "movies",
+    "rule": "table_critical_issues",
+    "timestamp": "2025-07-05T19:42:41.818616",
+    "data": {
+      "critical_issues": 1,
+      "total_issues": 3
+    },
+    "resolved": false,
+    "resolved_at": null
+  },
+  {
+    "id": "table_critical_ratings_20250705_194241",
+    "severity": "critical",
+    "message": "Table 'ratings' has 1 critical issues",
+    "table": "ratings",
+    "rule": "table_critical_issues",
+    "timestamp": "2025-07-05T19:42:41.818619",
+    "data": {
+      "critical_issues": 1,
+      "total_issues": 1
+    },
+    "resolved": false,
+    "resolved_at": null
+  }
+]
