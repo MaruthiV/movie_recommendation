@@ -43,6 +43,14 @@ Based on the PRD analysis, here are the main high-level tasks required to implem
 - `tests/performance/test_latency.py` - Performance and latency testing
 - `monitoring/metrics_collector.py` - Metrics collection for monitoring
 - `monitoring/alerting.py` - Alerting system for system health
+- `src/models/movie_similarity.py` - Movie similarity calculation using LightGCN embeddings
+- `src/models/test_movie_similarity.py` - Unit tests for movie similarity calculator
+- `src/models/candidate_generator.py` - Candidate generation pipeline (LightGCN, popularity, hybrid)
+- `src/models/test_candidate_generator.py` - Unit tests for candidate generation pipeline
+- `src/models/cold_start_handler.py` - Cold-start strategies for new users and new content
+- `src/models/test_cold_start_handler.py` - Unit tests for cold-start handler
+- `src/models/diversity.py` - Diversity constraints and reranking (MMR, genre, embedding)
+- `src/models/test_diversity.py` - Unit tests for diversity constraints
 
 ### Notes
 
@@ -64,15 +72,15 @@ Based on the PRD analysis, here are the main high-level tasks required to implem
   - [x] 1.7 Implement data validation and quality checks
   - [x] 1.8 Set up data backup and recovery procedures
 
-- [ ] 2.0 Build Core Recommendation Engine
+- [x] 2.0 Build Core Recommendation Engine
   - [x] 2.1 Implement LightGCN model for collaborative filtering
-  - [ ] 2.2 Create movie similarity calculation using embeddings
-  - [ ] 2.3 Build candidate generation pipeline (thousands of plausible items)
-  - [ ] 2.4 Implement cold-start strategies for new users and new content
-  - [ ] 2.5 Create diversity constraints to avoid filter bubbles
-  - [ ] 2.6 Set up model training pipeline with PyTorch Geometric
-  - [ ] 2.7 Implement model versioning and A/B testing framework
-  - [ ] 2.8 Create model evaluation pipeline with NDCG@10, Recall@k metrics
+  - [x] 2.2 Create movie similarity calculation using embeddings
+  - [x] 2.3 Build candidate generation pipeline (thousands of plausible items)
+  - [x] 2.4 Implement cold-start strategies for new users and new content
+  - [x] 2.5 Create diversity constraints to avoid filter bubbles
+  - [x] 2.6 Set up model training pipeline with PyTorch Geometric
+  - [x] 2.7 Implement model versioning and A/B testing framework
+  - [x] 2.8 Create model evaluation pipeline with NDCG@10, Recall@k metrics
 
 - [ ] 3.0 Implement Natural Language Search and RAG System
   - [ ] 3.1 Set up FAISS vector database for similarity search

@@ -1,0 +1,53 @@
+2025-07-06 17:57:10,779 - __main__ - INFO - Starting movie recommendation model training
+2025-07-06 17:57:10,780 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-20m', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=1024, num_epochs=100, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-06 17:57:10,780 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 1024, 'num_epochs': 100, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-06 17:57:10,780 - __main__ - INFO - Starting model training...
+2025-07-06 17:57:10,782 - models.training_pipeline - INFO - Using CPU device
+2025-07-06 17:57:10,783 - models.training_pipeline - INFO - Loading data...
+2025-07-06 17:57:10,783 - root - INFO - Loading MovieLens data...
+2025-07-06 17:57:13,528 - __main__ - ERROR - Training failed with error: 'DataConfig' object has no attribute 'min_interactions_per_user'
+2025-07-06 17:57:13,530 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 625, in train_model
+    pipeline = TrainingPipeline(config, data_dir, output_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 178, in __init__
+    self.data_loader, self.graph_data, self.metadata = self._load_data()
+                                                       ~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 248, in _load_data
+    data_loader, graph_data, metadata = create_data_loaders(
+                                        ~~~~~~~~~~~~~~~~~~~^
+        data_dir=self.data_dir,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+        config=self.config.data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+        cache_dir=str(self.output_dir / "cache")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 383, in create_data_loaders
+    data_loader = MovieLensDataLoader(data_dir, config, cache_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 232, in __init__
+    self.dataset = self._load_dataset()
+                   ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 292, in _load_dataset
+    dataset = MovieLensDataset(ratings_df, movies_df, users_df, self.config)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 47, in __init__
+    self.ratings_df = self._preprocess_ratings(ratings_df)
+                      ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 90, in _preprocess_ratings
+    valid_users = user_counts[user_counts >= self.config.min_interactions_per_user].index
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DataConfig' object has no attribute 'min_interactions_per_user'
+
+2025-07-06 17:58:19,426 - __main__ - INFO - Starting movie recommendation model training
+2025-07-06 17:58:19,426 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-20m', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=1024, num_epochs=100, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-06 17:58:19,426 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 1024, 'num_epochs': 100, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-06 17:58:19,426 - __main__ - INFO - Starting model training...
+2025-07-06 17:58:19,428 - models.training_pipeline - INFO - Using CPU device
+2025-07-06 17:58:19,428 - models.training_pipeline - INFO - Loading data...
+2025-07-06 17:58:19,428 - root - INFO - Loading MovieLens data...
