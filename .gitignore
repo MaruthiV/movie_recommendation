@@ -1,0 +1,9 @@
+data/
+outputs/
+logs/
+checkpoints/
+*.csv
+*.pt
+*.pkl
+*.tar.gz
+*.zip 
