@@ -295,8 +295,7 @@ class TrainingPipeline:
             optimizer,
             mode='min',
             factor=0.5,
-            patience=5,
-            verbose=True
+            patience=5
         )
         
         return optimizer, scheduler
@@ -526,8 +525,26 @@ class TrainingPipeline:
         
         # Save metadata
         metadata_file = self.output_dir / "metadata.json"
+        
+        def convert_numpy_types(obj):
+            """Recursively convert numpy types to native Python types for JSON serialization."""
+            if isinstance(obj, np.integer):
+                return int(obj)
+            elif isinstance(obj, np.floating):
+                return float(obj)
+            elif isinstance(obj, np.ndarray):
+                return obj.tolist()
+            elif isinstance(obj, dict):
+                return {convert_numpy_types(k): convert_numpy_types(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [convert_numpy_types(item) for item in obj]
+            else:
+                return obj
+        
+        serializable_metadata = convert_numpy_types(self.metadata)
+        
         with open(metadata_file, 'w') as f:
-            json.dump(self.metadata, f, indent=2)
+            json.dump(serializable_metadata, f, indent=2)
         
         self.logger.info(f"Training results saved to {self.output_dir}")
     

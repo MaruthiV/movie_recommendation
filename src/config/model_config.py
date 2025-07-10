@@ -104,6 +104,10 @@ class DataConfig:
     max_rating: float = 5.0
     min_interactions_per_user: int = 5
     min_interactions_per_item: int = 5
+    train_ratio: float = 0.8
+    val_ratio: float = 0.1
+    test_ratio: float = 0.1
+    batch_size: int = 256
     
     # Feature engineering
     use_movie_features: bool = True

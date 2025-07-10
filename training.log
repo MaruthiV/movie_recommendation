@@ -51,3 +51,361 @@ AttributeError: 'DataConfig' object has no attribute 'min_interactions_per_user'
 2025-07-06 17:58:19,428 - models.training_pipeline - INFO - Using CPU device
 2025-07-06 17:58:19,428 - models.training_pipeline - INFO - Loading data...
 2025-07-06 17:58:19,428 - root - INFO - Loading MovieLens data...
+2025-07-10 16:15:18,006 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:15:18,006 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:15:18,006 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:15:18,006 - __main__ - INFO - Starting model training...
+2025-07-10 16:15:18,008 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:15:18,008 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:15:18,008 - root - INFO - Loading MovieLens data...
+2025-07-10 16:15:18,169 - __main__ - ERROR - Training failed with error: Sizes of tensors must match except in dimension 0. Expected size 610 but got size 3650 for tensor number 1 in the list.
+2025-07-10 16:15:18,170 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 625, in train_model
+    pipeline = TrainingPipeline(config, data_dir, output_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 178, in __init__
+    self.data_loader, self.graph_data, self.metadata = self._load_data()
+                                                       ~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 248, in _load_data
+    data_loader, graph_data, metadata = create_data_loaders(
+                                        ~~~~~~~~~~~~~~~~~~~^
+        data_dir=self.data_dir,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+        config=self.config.data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+        cache_dir=str(self.output_dir / "cache")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 383, in create_data_loaders
+    data_loader = MovieLensDataLoader(data_dir, config, cache_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 232, in __init__
+    self.dataset = self._load_dataset()
+                   ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 292, in _load_dataset
+    dataset = MovieLensDataset(ratings_df, movies_df, users_df, self.config)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 79, in __init__
+    self.graph_data = self._create_graph_data()
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 163, in _create_graph_data
+    x = torch.cat([user_features, item_features], dim=0)
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 610 but got size 3650 for tensor number 1 in the list.
+
+2025-07-10 16:24:29,117 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:24:29,117 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:24:29,117 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:24:29,117 - __main__ - INFO - Starting model training...
+2025-07-10 16:24:29,119 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:24:29,119 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:24:29,119 - root - INFO - Loading MovieLens data...
+2025-07-10 16:24:29,288 - root - INFO - Dataset created with 610 users, 3650 items, 74292 positive interactions
+2025-07-10 16:24:29,288 - root - INFO - Saving dataset to cache...
+2025-07-10 16:24:29,315 - __main__ - ERROR - Training failed with error: 'DataConfig' object has no attribute 'train_ratio'
+2025-07-10 16:24:29,316 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 625, in train_model
+    pipeline = TrainingPipeline(config, data_dir, output_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 178, in __init__
+    self.data_loader, self.graph_data, self.metadata = self._load_data()
+                                                       ~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 248, in _load_data
+    data_loader, graph_data, metadata = create_data_loaders(
+                                        ~~~~~~~~~~~~~~~~~~~^
+        data_dir=self.data_dir,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+        config=self.config.data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+        cache_dir=str(self.output_dir / "cache")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 387, in create_data_loaders
+    data_loader = MovieLensDataLoader(data_dir, config, cache_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 239, in __init__
+    self.train_dataset, self.val_dataset, self.test_dataset = self._create_splits()
+                                                              ~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 309, in _create_splits
+    train_size = int(total_size * self.config.train_ratio)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DataConfig' object has no attribute 'train_ratio'
+
+2025-07-10 16:25:20,661 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:25:20,661 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:25:20,661 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:25:20,662 - __main__ - INFO - Starting model training...
+2025-07-10 16:25:20,663 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:25:20,664 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:25:20,664 - root - INFO - Loading dataset from cache...
+2025-07-10 16:25:20,710 - __main__ - ERROR - Training failed with error: 'DataConfig' object has no attribute 'batch_size'
+2025-07-10 16:25:20,711 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 625, in train_model
+    pipeline = TrainingPipeline(config, data_dir, output_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 178, in __init__
+    self.data_loader, self.graph_data, self.metadata = self._load_data()
+                                                       ~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 248, in _load_data
+    data_loader, graph_data, metadata = create_data_loaders(
+                                        ~~~~~~~~~~~~~~~~~~~^
+        data_dir=self.data_dir,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+        config=self.config.data,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+        cache_dir=str(self.output_dir / "cache")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 387, in create_data_loaders
+    data_loader = MovieLensDataLoader(data_dir, config, cache_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/data_loader.py", line 244, in __init__
+    batch_size=self.config.batch_size,
+               ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DataConfig' object has no attribute 'batch_size'
+
+2025-07-10 16:25:41,789 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:25:41,790 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:25:41,790 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:25:41,790 - __main__ - INFO - Starting model training...
+2025-07-10 16:25:41,792 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:25:41,792 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:25:41,792 - root - INFO - Loading dataset from cache...
+2025-07-10 16:25:41,868 - models.training_pipeline - INFO - Data loaded: 610 users, 3650 items
+2025-07-10 16:25:41,868 - models.training_pipeline - INFO - Initializing LightGCN model...
+2025-07-10 16:25:41,873 - models.training_pipeline - INFO - Model initialized: 272,640 total parameters, 272,640 trainable parameters
+2025-07-10 16:25:41,873 - __main__ - ERROR - Training failed with error: ReduceLROnPlateau.__init__() got an unexpected keyword argument 'verbose'
+2025-07-10 16:25:41,873 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 625, in train_model
+    pipeline = TrainingPipeline(config, data_dir, output_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 184, in __init__
+    self.optimizer, self.scheduler = self._initialize_optimizer()
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 294, in _initialize_optimizer
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+    ...<3 lines>...
+        verbose=True
+    )
+TypeError: ReduceLROnPlateau.__init__() got an unexpected keyword argument 'verbose'
+
+2025-07-10 16:34:34,010 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:34:34,010 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:34:34,010 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:34:34,010 - __main__ - INFO - Starting model training...
+2025-07-10 16:34:34,012 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:34:34,012 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:34:34,012 - root - INFO - Loading dataset from cache...
+2025-07-10 16:34:34,063 - models.training_pipeline - INFO - Data loaded: 610 users, 3650 items
+2025-07-10 16:34:34,063 - models.training_pipeline - INFO - Initializing LightGCN model...
+2025-07-10 16:34:34,067 - models.training_pipeline - INFO - Model initialized: 272,640 total parameters, 272,640 trainable parameters
+2025-07-10 16:34:34,067 - __main__ - ERROR - Training failed with error: ReduceLROnPlateau.__init__() got an unexpected keyword argument 'verbose'
+2025-07-10 16:34:34,067 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 625, in train_model
+    pipeline = TrainingPipeline(config, data_dir, output_dir)
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 184, in __init__
+    self.optimizer, self.scheduler = self._initialize_optimizer()
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 294, in _initialize_optimizer
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+    ...<3 lines>...
+        verbose=True
+    )
+TypeError: ReduceLROnPlateau.__init__() got an unexpected keyword argument 'verbose'
+
+2025-07-10 16:34:50,501 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:34:50,501 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:34:50,501 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:34:50,501 - __main__ - INFO - Starting model training...
+2025-07-10 16:34:50,503 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:34:50,503 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:34:50,503 - root - INFO - Loading dataset from cache...
+2025-07-10 16:34:50,554 - models.training_pipeline - INFO - Data loaded: 610 users, 3650 items
+2025-07-10 16:34:50,554 - models.training_pipeline - INFO - Initializing LightGCN model...
+2025-07-10 16:34:50,559 - models.training_pipeline - INFO - Model initialized: 272,640 total parameters, 272,640 trainable parameters
+2025-07-10 16:34:50,559 - models.training_pipeline - INFO - Starting training...
+2025-07-10 16:34:50,560 - models.training_pipeline - INFO - Configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:34:57,655 - models.training_pipeline - INFO - Epoch 1, Batch 0, Loss: 0.6934
+2025-07-10 16:35:01,724 - models.training_pipeline - INFO - Epoch 1, Batch 100, Loss: 0.6932
+2025-07-10 16:35:06,510 - models.training_pipeline - INFO - Epoch 1, Batch 200, Loss: 0.6931
+2025-07-10 16:35:18,938 - models.training_pipeline - INFO - Epoch 1/5 - Train Loss: 0.6932, Val Loss: 0.6931, NDCG@10: 0.6429, Recall@10: 0.0008, Time: 28.38s
+2025-07-10 16:35:18,952 - models.training_pipeline - INFO - Checkpoint saved: outputs/checkpoints/checkpoint_epoch_0.pt
+2025-07-10 16:35:25,742 - models.training_pipeline - INFO - Epoch 2, Batch 0, Loss: 0.6931
+2025-07-10 16:35:29,692 - models.training_pipeline - INFO - Epoch 2, Batch 100, Loss: 0.6931
+2025-07-10 16:35:33,579 - models.training_pipeline - INFO - Epoch 2, Batch 200, Loss: 0.6931
+2025-07-10 16:35:44,978 - models.training_pipeline - INFO - Epoch 2/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.3885, Recall@10: 0.0005, Time: 26.03s
+2025-07-10 16:35:50,911 - models.training_pipeline - INFO - Epoch 3, Batch 0, Loss: 0.6931
+2025-07-10 16:35:54,637 - models.training_pipeline - INFO - Epoch 3, Batch 100, Loss: 0.6931
+2025-07-10 16:35:58,376 - models.training_pipeline - INFO - Epoch 3, Batch 200, Loss: 0.6931
+2025-07-10 16:36:09,497 - models.training_pipeline - INFO - Epoch 3/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.5767, Recall@10: 0.0008, Time: 24.52s
+2025-07-10 16:36:15,772 - models.training_pipeline - INFO - Epoch 4, Batch 0, Loss: 0.6931
+2025-07-10 16:36:19,510 - models.training_pipeline - INFO - Epoch 4, Batch 100, Loss: 0.6931
+2025-07-10 16:36:23,213 - models.training_pipeline - INFO - Epoch 4, Batch 200, Loss: 0.6931
+2025-07-10 16:36:34,475 - models.training_pipeline - INFO - Epoch 4/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.3094, Recall@10: 0.0005, Time: 24.98s
+2025-07-10 16:36:40,418 - models.training_pipeline - INFO - Epoch 5, Batch 0, Loss: 0.6931
+2025-07-10 16:36:44,264 - models.training_pipeline - INFO - Epoch 5, Batch 100, Loss: 0.6931
+2025-07-10 16:36:48,038 - models.training_pipeline - INFO - Epoch 5, Batch 200, Loss: 0.6931
+2025-07-10 16:36:58,892 - models.training_pipeline - INFO - Epoch 5/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.5185, Recall@10: 0.0008, Time: 24.42s
+2025-07-10 16:36:58,892 - models.training_pipeline - INFO - Training completed in 128.33 seconds
+2025-07-10 16:36:58,893 - __main__ - ERROR - Training failed with error: keys must be str, int, float, bool or None, not int64
+2025-07-10 16:36:58,895 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 631, in train_model
+    results = pipeline.train()
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 493, in train
+    self._save_training_results()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 529, in _save_training_results
+    json.dump(self.metadata, f, indent=2)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 377, in _iterencode_dict
+    raise TypeError(f'keys must be str, int, float, bool or None, '
+                    f'not {key.__class__.__name__}')
+TypeError: keys must be str, int, float, bool or None, not int64
+
+2025-07-10 16:41:13,617 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:41:13,617 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:41:13,617 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:41:13,617 - __main__ - INFO - Starting model training...
+2025-07-10 16:41:13,619 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:41:13,619 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:41:13,619 - root - INFO - Loading dataset from cache...
+2025-07-10 16:41:13,681 - models.training_pipeline - INFO - Data loaded: 610 users, 3650 items
+2025-07-10 16:41:13,681 - models.training_pipeline - INFO - Initializing LightGCN model...
+2025-07-10 16:41:13,686 - models.training_pipeline - INFO - Model initialized: 272,640 total parameters, 272,640 trainable parameters
+2025-07-10 16:41:13,686 - models.training_pipeline - INFO - Starting training...
+2025-07-10 16:41:13,686 - models.training_pipeline - INFO - Configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:41:21,101 - models.training_pipeline - INFO - Epoch 1, Batch 0, Loss: 0.6934
+2025-07-10 16:41:25,123 - models.training_pipeline - INFO - Epoch 1, Batch 100, Loss: 0.6932
+2025-07-10 16:41:29,426 - models.training_pipeline - INFO - Epoch 1, Batch 200, Loss: 0.6931
+2025-07-10 16:41:40,867 - models.training_pipeline - INFO - Epoch 1/5 - Train Loss: 0.6932, Val Loss: 0.6931, NDCG@10: 0.6429, Recall@10: 0.0008, Time: 27.18s
+2025-07-10 16:41:40,876 - models.training_pipeline - INFO - Checkpoint saved: outputs/checkpoints/checkpoint_epoch_0.pt
+2025-07-10 16:41:46,960 - models.training_pipeline - INFO - Epoch 2, Batch 0, Loss: 0.6931
+2025-07-10 16:41:50,692 - models.training_pipeline - INFO - Epoch 2, Batch 100, Loss: 0.6931
+2025-07-10 16:41:54,419 - models.training_pipeline - INFO - Epoch 2, Batch 200, Loss: 0.6931
+2025-07-10 16:42:05,748 - models.training_pipeline - INFO - Epoch 2/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.3885, Recall@10: 0.0005, Time: 24.87s
+2025-07-10 16:42:12,301 - models.training_pipeline - INFO - Epoch 3, Batch 0, Loss: 0.6931
+2025-07-10 16:42:16,099 - models.training_pipeline - INFO - Epoch 3, Batch 100, Loss: 0.6931
+2025-07-10 16:42:19,824 - models.training_pipeline - INFO - Epoch 3, Batch 200, Loss: 0.6931
+2025-07-10 16:42:31,236 - models.training_pipeline - INFO - Epoch 3/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.5767, Recall@10: 0.0008, Time: 25.49s
+2025-07-10 16:42:37,426 - models.training_pipeline - INFO - Epoch 4, Batch 0, Loss: 0.6931
+2025-07-10 16:42:41,306 - models.training_pipeline - INFO - Epoch 4, Batch 100, Loss: 0.6931
+2025-07-10 16:42:45,226 - models.training_pipeline - INFO - Epoch 4, Batch 200, Loss: 0.6931
+2025-07-10 16:42:57,053 - models.training_pipeline - INFO - Epoch 4/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.3094, Recall@10: 0.0005, Time: 25.82s
+2025-07-10 16:43:03,216 - models.training_pipeline - INFO - Epoch 5, Batch 0, Loss: 0.6931
+2025-07-10 16:43:07,628 - models.training_pipeline - INFO - Epoch 5, Batch 100, Loss: 0.6931
+2025-07-10 16:43:11,693 - models.training_pipeline - INFO - Epoch 5, Batch 200, Loss: 0.6931
+2025-07-10 16:43:23,741 - models.training_pipeline - INFO - Epoch 5/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.5185, Recall@10: 0.0008, Time: 26.69s
+2025-07-10 16:43:23,742 - models.training_pipeline - INFO - Training completed in 130.06 seconds
+2025-07-10 16:43:23,743 - __main__ - ERROR - Training failed with error: keys must be str, int, float, bool or None, not int64
+2025-07-10 16:43:23,745 - __main__ - ERROR - Traceback (most recent call last):
+  File "/Users/maruthi/Documents/dev/movie_recc/scripts/train_models.py", line 220, in main
+    results = train_model(
+        config=config,
+    ...<2 lines>...
+        resume_from=args.resume_from
+    )
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 639, in train_model
+    results = pipeline.train()
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 493, in train
+    self._save_training_results()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/maruthi/Documents/dev/movie_recc/src/models/training_pipeline.py", line 537, in _save_training_results
+    json.dump(serializable_metadata, f, indent=2)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 377, in _iterencode_dict
+    raise TypeError(f'keys must be str, int, float, bool or None, '
+                    f'not {key.__class__.__name__}')
+TypeError: keys must be str, int, float, bool or None, not int64
+
+2025-07-10 16:44:45,585 - __main__ - INFO - Starting movie recommendation model training
+2025-07-10 16:44:45,585 - __main__ - INFO - Arguments: Namespace(data_dir='data/ml-100k', config='default', embedding_dim=64, num_layers=3, learning_rate=0.001, batch_size=256, num_epochs=5, output_dir='outputs', resume_from=None, device='cpu', use_amp=False, eval_only=False, checkpoint_path=None, log_level='INFO')
+2025-07-10 16:44:45,585 - __main__ - INFO - Using configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:44:45,585 - __main__ - INFO - Starting model training...
+2025-07-10 16:44:45,587 - models.training_pipeline - INFO - Using CPU device
+2025-07-10 16:44:45,587 - models.training_pipeline - INFO - Loading data...
+2025-07-10 16:44:45,587 - root - INFO - Loading dataset from cache...
+2025-07-10 16:44:45,636 - models.training_pipeline - INFO - Data loaded: 610 users, 3650 items
+2025-07-10 16:44:45,636 - models.training_pipeline - INFO - Initializing LightGCN model...
+2025-07-10 16:44:45,640 - models.training_pipeline - INFO - Model initialized: 272,640 total parameters, 272,640 trainable parameters
+2025-07-10 16:44:45,640 - models.training_pipeline - INFO - Starting training...
+2025-07-10 16:44:45,641 - models.training_pipeline - INFO - Configuration: {'lightgcn': {'embedding_dim': 64, 'num_layers': 3, 'dropout': 0.1, 'learning_rate': 0.001, 'weight_decay': 0.0001, 'batch_size': 256, 'num_epochs': 5, 'early_stopping_patience': 10, 'loss_type': 'bpr', 'negative_sampling_ratio': 1, 'l2_reg': 0.0001, 'clip_grad_norm': 1.0, 'device': 'cpu', 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'eval_metrics': ['ndcg', 'recall', 'precision', 'hit_ratio'], 'top_k_values': [5, 10, 20, 50]}, 'training': {'experiment_name': 'movie_recommendation', 'run_name': None, 'log_dir': 'logs/training', 'checkpoint_dir': 'checkpoints', 'log_interval': 100, 'eval_interval': 5, 'save_interval': 10, 'seed': 42, 'deterministic': True, 'num_gpus': 0, 'distributed': False, 'use_amp': False, 'amp_dtype': 'float16', 'resume_from_checkpoint': None, 'load_optimizer': True, 'load_scheduler': True}, 'data': {'movielens_path': 'data/ml-20m', 'tmdb_path': 'data/tmdb', 'postgres_connection': {'host': 'localhost', 'port': 5432, 'database': 'movie_recommendation', 'user': 'postgres', 'password': 'password'}, 'neo4j_connection': {'uri': 'bolt://localhost:7687', 'user': 'neo4j', 'password': 'password'}, 'milvus_connection': {'host': 'localhost', 'port': 19530}, 'max_sequence_length': 100, 'min_rating': 1.0, 'max_rating': 5.0, 'min_interactions_per_user': 5, 'min_interactions_per_item': 5, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'batch_size': 256, 'use_movie_features': True, 'use_user_features': True, 'feature_dim': 128, 'cache_dir': 'cache', 'use_cache': True}, 'evaluation': {'test_users_ratio': 0.2, 'test_items_ratio': 0.2, 'primary_metric': 'ndcg@10', 'secondary_metrics': ['recall@10', 'precision@10', 'hit_ratio@10'], 'eval_batch_size': 1024, 'num_test_users': None, 'num_candidates_per_user': 100, 'ab_test_enabled': False, 'ab_test_ratio': 0.1}}
+2025-07-10 16:44:52,746 - models.training_pipeline - INFO - Epoch 1, Batch 0, Loss: 0.6934
+2025-07-10 16:44:57,288 - models.training_pipeline - INFO - Epoch 1, Batch 100, Loss: 0.6932
+2025-07-10 16:45:01,333 - models.training_pipeline - INFO - Epoch 1, Batch 200, Loss: 0.6931
+2025-07-10 16:45:13,229 - models.training_pipeline - INFO - Epoch 1/5 - Train Loss: 0.6932, Val Loss: 0.6931, NDCG@10: 0.6429, Recall@10: 0.0008, Time: 27.59s
+2025-07-10 16:45:13,238 - models.training_pipeline - INFO - Checkpoint saved: outputs/checkpoints/checkpoint_epoch_0.pt
+2025-07-10 16:45:19,419 - models.training_pipeline - INFO - Epoch 2, Batch 0, Loss: 0.6931
+2025-07-10 16:45:23,261 - models.training_pipeline - INFO - Epoch 2, Batch 100, Loss: 0.6931
+2025-07-10 16:45:27,093 - models.training_pipeline - INFO - Epoch 2, Batch 200, Loss: 0.6931
+2025-07-10 16:45:38,622 - models.training_pipeline - INFO - Epoch 2/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.3885, Recall@10: 0.0005, Time: 25.38s
+2025-07-10 16:45:44,755 - models.training_pipeline - INFO - Epoch 3, Batch 0, Loss: 0.6931
+2025-07-10 16:45:48,603 - models.training_pipeline - INFO - Epoch 3, Batch 100, Loss: 0.6931
+2025-07-10 16:45:52,428 - models.training_pipeline - INFO - Epoch 3, Batch 200, Loss: 0.6931
+2025-07-10 16:46:03,757 - models.training_pipeline - INFO - Epoch 3/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.5767, Recall@10: 0.0008, Time: 25.14s
+2025-07-10 16:46:10,651 - models.training_pipeline - INFO - Epoch 4, Batch 0, Loss: 0.6931
+2025-07-10 16:46:14,609 - models.training_pipeline - INFO - Epoch 4, Batch 100, Loss: 0.6931
+2025-07-10 16:46:18,477 - models.training_pipeline - INFO - Epoch 4, Batch 200, Loss: 0.6931
+2025-07-10 16:46:30,753 - models.training_pipeline - INFO - Epoch 4/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.3094, Recall@10: 0.0005, Time: 27.00s
+2025-07-10 16:46:37,113 - models.training_pipeline - INFO - Epoch 5, Batch 0, Loss: 0.6931
+2025-07-10 16:46:41,008 - models.training_pipeline - INFO - Epoch 5, Batch 100, Loss: 0.6931
+2025-07-10 16:46:44,826 - models.training_pipeline - INFO - Epoch 5, Batch 200, Loss: 0.6931
+2025-07-10 16:46:55,688 - models.training_pipeline - INFO - Epoch 5/5 - Train Loss: 0.6931, Val Loss: 0.6931, NDCG@10: 0.5185, Recall@10: 0.0008, Time: 24.93s
+2025-07-10 16:46:55,689 - models.training_pipeline - INFO - Training completed in 130.05 seconds
+2025-07-10 16:46:55,696 - models.training_pipeline - INFO - Training results saved to outputs
+2025-07-10 16:47:04,445 - models.training_pipeline - INFO - Test Results:
+2025-07-10 16:47:04,445 - models.training_pipeline - INFO -   test_loss: 0.6931
+2025-07-10 16:47:04,445 - models.training_pipeline - INFO -   test_ndcg@10: 0.1396
+2025-07-10 16:47:04,445 - models.training_pipeline - INFO -   test_recall@10: 0.0003
+2025-07-10 16:47:04,445 - models.training_pipeline - INFO -   test_precision@10: 0.2000
+2025-07-10 16:47:04,445 - models.training_pipeline - INFO -   test_hit_ratio@10: 1.0000
+2025-07-10 16:47:04,461 - __main__ - INFO - Training completed successfully!
+2025-07-10 16:47:04,461 - __main__ - INFO - Best validation loss: N/A
+2025-07-10 16:47:04,461 - __main__ - INFO - Test metrics: {'test_loss': 0.6931490878264109, 'test_ndcg@10': np.float64(0.13961814555374907), 'test_recall@10': np.float64(0.00026917900403768504), 'test_precision@10': np.float64(0.2), 'test_hit_ratio@10': 1.0}
+2025-07-10 16:47:04,461 - __main__ - INFO - Total training time: 130.05 seconds
+2025-07-10 16:47:04,461 - __main__ - INFO - Results saved to: outputs

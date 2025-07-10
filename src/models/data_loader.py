@@ -14,7 +14,7 @@ import pickle
 from sklearn.preprocessing import LabelEncoder
 import logging
 
-from config.model_config import DataConfig
+from src.config.model_config import DataConfig
 
 
 class MovieLensDataset(Dataset):
@@ -155,11 +155,31 @@ class MovieLensDataset(Dataset):
         num_users = len(self.user_to_idx)
         num_items = len(self.item_to_idx)
         
-        # Simple one-hot encoding for users and items
-        user_features = torch.eye(num_users)
-        item_features = torch.eye(num_items)
+        # Item features: one-hot + genres (all columns except movieId, title, genres, year)
+        item_feature_cols = [col for col in self.movies_df.columns if col.startswith('genre_')]
+        item_features = torch.tensor(self.movies_df[item_feature_cols].values, dtype=torch.float32)
+        item_feature_dim = item_features.shape[1]
         
-        # Combine features
+        # User features: zeros to match item feature dim (legacy logic)
+        user_features = torch.zeros((num_users, item_feature_dim), dtype=torch.float32)
+        
+        # --- Robust padding logic ---
+        # If user_features and item_features have different feature dims, pad the smaller one
+        user_dim = user_features.shape[1]
+        item_dim = item_features.shape[1]
+        if user_dim < item_dim:
+            pad_width = item_dim - user_dim
+            user_features = torch.cat([
+                user_features,
+                torch.zeros((user_features.shape[0], pad_width), dtype=user_features.dtype, device=user_features.device)
+            ], dim=1)
+        elif item_dim < user_dim:
+            pad_width = user_dim - item_dim
+            item_features = torch.cat([
+                item_features,
+                torch.zeros((item_features.shape[0], pad_width), dtype=item_features.dtype, device=item_features.device)
+            ], dim=1)
+        # Now safe to concatenate
         x = torch.cat([user_features, item_features], dim=0)
         
         # Create PyTorch Geometric Data object
