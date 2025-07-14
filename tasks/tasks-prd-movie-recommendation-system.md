@@ -13,7 +13,9 @@ Based on the PRD analysis, here are the main high-level tasks required to implem
 - `src/models/multimodal_model.py` - CLIP/VideoCLIP integration for multi-modal embeddings
 - `src/models/multimodal_model.test.py` - Unit tests for multi-modal model
 - `src/rag/rag_system.py` - RAG implementation for explainability and natural language search
-- `src/rag/rag_system.test.py` - Unit tests for RAG system
+- `scripts/setup_faiss_index.py` - FAISS vector database setup and embedding generation
+- `scripts/enrich_movie_data.py` - Movie data enrichment with TMDB/OMDB metadata
+- `scripts/test_rag_simple.py` - RAG system testing script
 - `src/ranking/rl_ranker.py` - RL-based slate optimization and ranking
 - `src/ranking/rl_ranker.test.py` - Unit tests for RL ranker
 - `src/api/recommendation_api.py` - FastAPI endpoints for recommendation requests
@@ -83,14 +85,14 @@ Based on the PRD analysis, here are the main high-level tasks required to implem
   - [x] 2.8 Create model evaluation pipeline with NDCG@10, Recall@k metrics
 
 - [ ] 3.0 Implement Natural Language Search and RAG System
-  - [ ] 3.1 Set up FAISS vector database for similarity search
-  - [ ] 3.2 Integrate LLM (GPT-4o) for natural language understanding
-  - [ ] 3.3 Build RAG pipeline for "why this recommendation?" explanations
-  - [ ] 3.4 Create semantic search for natural language queries
-  - [ ] 3.5 Implement query disambiguation for ambiguous searches
-  - [ ] 3.6 Build knowledge graph integration for contextual explanations
-  - [ ] 3.7 Create explanation generation pipeline with supporting facts
-  - [ ] 3.8 Implement caching for frequently requested explanations
+  - [x] 3.1 Set up FAISS vector database for similarity search
+  - [~] 3.2 Integrate LLM (GPT-4o) for natural language understanding *(skipped: not required for this implementation)*
+  - [x] 3.3 Build RAG pipeline for "why this recommendation?" explanations
+  - [~] 3.4 Create semantic search for natural language queries *(skipped: not required for this implementation)*
+  - [~] 3.5 Implement query disambiguation for ambiguous searches *(skipped: not required for this implementation)*
+  - [x] 3.6 Build knowledge graph integration for contextual explanations
+  - [x] 3.7 Create explanation generation pipeline with supporting facts
+  - [x] 3.8 Implement caching for frequently requested explanations
 
 - [ ] 4.0 Create User Management and Profile System
   - [ ] 4.1 Design user profile schema with viewing preferences

@@ -5,8 +5,14 @@ from typing import List, Tuple, Dict, Optional, Union
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.spatial.distance import pdist, squareform
 import pandas as pd
+import sys
+from pathlib import Path
 
-from lightgcn_model import LightGCN
+# Add src to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+from .lightgcn_model import LightGCN
+from rag.rag_system import RAGExplanationSystem
 
 
 class MovieSimilarityCalculator:
@@ -17,13 +23,14 @@ class MovieSimilarityCalculator:
     based on learned embeddings from models like LightGCN.
     """
     
-    def __init__(self, model: LightGCN, device: str = 'cpu'):
+    def __init__(self, model: LightGCN, device: str = 'cpu', rag_index_dir: Optional[Path] = None):
         """
         Initialize the similarity calculator.
         
         Args:
             model: Trained LightGCN model
             device: Device to run calculations on ('cpu' or 'cuda')
+            rag_index_dir: Path to FAISS index directory for explanations (optional)
         """
         self.model = model
         self.device = device
@@ -33,6 +40,16 @@ class MovieSimilarityCalculator:
         # Cache for embeddings to avoid recomputation
         self._cached_embeddings = None
         self._cached_edge_index = None
+        
+        # Initialize RAG explanation system if index directory provided
+        self.rag_system = None
+        if rag_index_dir and rag_index_dir.exists():
+            try:
+                self.rag_system = RAGExplanationSystem(rag_index_dir)
+                print(f"RAG explanation system loaded from {rag_index_dir}")
+            except Exception as e:
+                print(f"Warning: Could not load RAG system: {e}")
+                self.rag_system = None
     
     def get_movie_embeddings(self, edge_index: torch.Tensor) -> torch.Tensor:
         """
@@ -172,6 +189,53 @@ class MovieSimilarityCalculator:
         
         # Return top_k results
         return similarities[:top_k]
+    
+    def get_similar_movies_with_explanations(
+        self,
+        movie_id: int,
+        edge_index: torch.Tensor,
+        similarity_metric: str = 'cosine',
+        top_k: int = 10,
+        exclude_self: bool = True
+    ) -> List[Dict]:
+        """
+        Find similar movies with explanations for why they are recommended.
+        
+        Args:
+            movie_id: ID of the target movie
+            edge_index: Tensor of shape (2, num_edges) containing user-item interactions
+            similarity_metric: Similarity metric to use
+            top_k: Number of similar movies to return
+            exclude_self: Whether to exclude the movie itself from results
+            
+        Returns:
+            List of dictionaries with movie_id, similarity_score, and explanation
+        """
+        # Get similar movies
+        similar_movies = self.get_similar_movies(
+            movie_id, edge_index, similarity_metric, top_k, exclude_self
+        )
+        
+        # Add explanations if RAG system is available
+        results = []
+        for rec_movie_id, similarity_score in similar_movies:
+            result = {
+                'movie_id': rec_movie_id,
+                'similarity_score': similarity_score,
+                'explanation': None
+            }
+            
+            # Generate explanation if RAG system is available
+            if self.rag_system:
+                try:
+                    explanation = self.rag_system.explain_recommendation(movie_id, rec_movie_id)
+                    result['explanation'] = explanation
+                except Exception as e:
+                    result['explanation'] = f"Explanation unavailable: {str(e)}"
+            
+            results.append(result)
+        
+        return results
     
     def get_similarity_matrix(
         self,
