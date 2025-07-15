@@ -46,4 +46,3 @@ You will be prompted to enter a movie title to get similar movies, or to discove
 
 - All recommendations and explanations are generated locally using the pre-built models and data.
 - No web server or user management is required.
-- For advanced usage or retraining, see the scripts/ directory.
